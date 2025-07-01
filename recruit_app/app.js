@@ -1,14 +1,22 @@
 const express = require('express');
-const authRoutes = require('./routes/authRoutes');
+const routes = require('./routes'); 
 const errorHandler = require('./middleware/errorHandler');
+const morgan = require('morgan');
 
 const app = express();
+
+
+// Use morgan for request logging
+app.use(morgan('dev')); // Logs method, URL, status code, and response time
+
+
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/api', routes);
+
 
 // Catch malformed JSON error (must be after json middleware and routes)
 app.use((err, req, res, next) => {

@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { sendSuccess, sendError } = require('../utils/response');
 
 // Generate JWT token
 const generateToken = (user) => {
@@ -14,30 +15,30 @@ const generateToken = (user) => {
   );
 };
 
-// @desc    Register user
+// @desc    Register new user
 // @route   POST /api/auth/register
 exports.registerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password, role, parent_id } = req.body;
 
-    // Check if user already exists
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: 'Email already exists' });
+    if (userExists) {
+      return sendError(res, new Error('Email already exists'), 400);
+    }
 
-    // Create new user
     const user = await User.create({
       firstName,
       lastName,
       email,
       password,
-      role,       // superuser, admin, coach
+      role,
       parent_id
     });
 
     const token = generateToken(user);
-    res.status(201).json({ user, token });
+    return sendSuccess(res, { user, token }, 'User registered successfully', 201);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return sendError(res, err);
   }
 };
 
@@ -47,15 +48,14 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
     const user = await User.findOne({ email });
     if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return sendError(res, new Error('Invalid email or password'), 401);
     }
 
     const token = generateToken(user);
-    res.status(200).json({ user, token });
+    return sendSuccess(res, { user, token }, 'Login successful', 200);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    return sendError(res, err);
   }
 };
