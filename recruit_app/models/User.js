@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-const userSchema = new mongoose.Schema({
+const { Schema, model } = mongoose;
+
+const userSchema = new Schema({
   firstName: {
     type: String,
     required: [true, 'First Name is required']
@@ -24,16 +26,15 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['superuser', 'admin', 'coach'],
-    default: 'coach' // Default is coach
+    default: 'coach'
   },
   parent_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     default: null
   }
 }, { timestamps: true });
 
-// Hash password before saving
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);
@@ -41,9 +42,9 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Compare entered password with hashed password
 userSchema.methods.matchPassword = function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
+export default User;

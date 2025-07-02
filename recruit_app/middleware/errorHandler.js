@@ -1,6 +1,6 @@
 // middleware/errorHandler.js
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, res, _next) => {
   console.error(err.stack);
 
   // Set status code if not already set
@@ -13,4 +13,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports = errorHandler;
+export default errorHandler;

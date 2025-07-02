@@ -1,10 +1,20 @@
 // routes/index.js
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
 
 // Import individual route files
-const authRoutes = require('./authRoutes');
+import authRoutes from './authRoutes.js';
+import schoolRoutes from './schoolRoutes.js';
+import userDetailsRoutes from './userDetailsRoutes.js';
+import prospectDetailsRoutes from './prospectDetailsRoutes.js';
+import prospectRoutes from './prospectRoutes.js';
 
+const router = Router();
+
+// Mount route handlers
 router.use('/auth', authRoutes);
+router.use('/schools', schoolRoutes);
+router.use('/user-details', userDetailsRoutes);
+router.use('/prospects', prospectRoutes);
+router.use('/prospect-details', prospectDetailsRoutes);
 
-module.exports = router;
+export default router;

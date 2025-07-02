@@ -1,10 +1,12 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const { sendSuccess, sendError } = require('../utils/response');
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken'; // ✅ Fix
+const { sign } = jwt;
+
+import { sendSuccess, sendError } from '../utils/response.js';
 
 // Generate JWT token
 const generateToken = (user) => {
-  return jwt.sign(
+  return sign(
     {
       id: user._id,
       email: user.email,
@@ -17,7 +19,7 @@ const generateToken = (user) => {
 
 // @desc    Register new user
 // @route   POST /api/auth/register
-exports.registerUser = async (req, res) => {
+export async function registerUser(req, res) {
   try {
     const { firstName, lastName, email, password, role, parent_id } = req.body;
 
@@ -40,11 +42,11 @@ exports.registerUser = async (req, res) => {
   } catch (err) {
     return sendError(res, err);
   }
-};
+}
 
 // @desc    Login user
 // @route   POST /api/auth/login
-exports.loginUser = async (req, res) => {
+export async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
 
@@ -58,4 +60,4 @@ exports.loginUser = async (req, res) => {
   } catch (err) {
     return sendError(res, err);
   }
-};
+}
