@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const userDetailsSchema = new Schema({
+const prospectDetailsSchema = new Schema({
   admin_id: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -11,6 +11,12 @@ const userDetailsSchema = new Schema({
     ref: 'User',
     required: true
   },
+  assigned_coach_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  
   prospect_id: {
     type: Schema.Types.ObjectId,
     ref: 'Prospect',
@@ -36,4 +42,4 @@ const userDetailsSchema = new Schema({
   }
 }, { timestamps: true });
 
-export default model('UserDetails', userDetailsSchema);
+export default model('ProspectDetails', prospectDetailsSchema);
