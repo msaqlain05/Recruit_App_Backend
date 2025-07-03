@@ -4,7 +4,15 @@ import morgan from 'morgan';
 import routes from './routes/index.js';
 import errorHandler from './middleware/errorHandler.js';
 
+import cors from 'cors';
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3000', // <-- Your frontend IP & port here
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 // Use morgan for request logging
 app.use(morgan('dev'));

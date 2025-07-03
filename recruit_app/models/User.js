@@ -25,10 +25,15 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['superuser', 'admin', 'coach'],
-    default: 'coach'
+    enum: ['superadmin', 'admin', 'coach'],
+    default: 'admin'
   },
   parent_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  admin_id: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     default: null

@@ -7,7 +7,7 @@ import schoolRoutes from './schoolRoutes.js';
 // import userDetailsRoutes from './userDetailsRoutes.js';
 import prospectDetailsRoutes from './prospectDetailsRoutes.js';
 import prospectRoutes from './prospectRoutes.js';
-
+import userRoutes from './userRoutes.js';
 const router = Router();
 
 // Mount route handlers
@@ -16,5 +16,6 @@ router.use('/schools', schoolRoutes);
 router.use('/user-details', prospectDetailsRoutes);
 router.use('/prospects', prospectRoutes);
 router.use('/prospect-details', prospectDetailsRoutes);
+router.use('/users', userRoutes);
 
 export default router;
